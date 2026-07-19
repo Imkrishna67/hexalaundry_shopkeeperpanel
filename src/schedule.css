@@ -1,0 +1,361 @@
+.schedule-page {
+  min-height: 100svh;
+  padding: 20px clamp(14px, 3vw, 28px) calc(66px + env(safe-area-inset-bottom));
+  background: var(--background);
+  animation: pageFadeIn 0.4s ease;
+}
+
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.schedule-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.schedule-header h1 {
+  margin: 0;
+  color: var(--text);
+  font-size: 28px;
+  line-height: 1.1;
+  letter-spacing: -0.6px;
+}
+
+  .schedule-back-button {
+    width: 24px;
+    height: 16px;
+    border: 0;
+    border-radius: 8px;
+  }
+
+  .schedule-back-button:hover {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+.schedule-back-button:active {
+  transform: scale(0.93);
+}
+
+.schedule-back-button:active {
+  transform: scale(0.93);
+}
+
+.schedule-back-button svg {
+  width: 14px;
+  height: 14px;
+}
+
+.schedule-form {
+  display: grid;
+  gap: 18px;
+}
+
+.schedule-card {
+  padding: 20px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.schedule-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.schedule-card:active {
+  transform: scale(0.97);
+}
+
+.schedule-card h2 {
+  margin: 0 0 16px;
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.field-group {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 0;
+}
+
+.field-group:last-child {
+  margin-bottom: 0;
+}
+
+.field-group label,
+.instructions-label {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.date-input,
+.instructions-input {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  outline: 0;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 15px;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: var(--shadow-xs);
+}
+
+.date-input {
+  height: 50px;
+  padding: 0 14px;
+}
+
+.date-input:focus,
+.instructions-input:focus {
+  border-color: var(--primary);
+  background: var(--surface);
+  box-shadow: 0 0 0 4px rgba(79, 142, 247, 0.12);
+  transform: translateY(-1px);
+}
+
+.helper-text {
+  margin: 4px 0 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.slot-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.slot-button {
+  min-height: 50px;
+  padding: 0 16px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: left;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: var(--shadow-xs);
+}
+
+.slot-button:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-raised);
+}
+
+.slot-button:active {
+  transform: scale(0.97);
+}
+
+.slot-button.active {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  color: var(--text);
+  box-shadow: 0 0 0 3px rgba(79, 142, 247, 0.12);
+}
+
+.slot-button.active span:last-child {
+  color: var(--primary);
+  font-size: 18px;
+}
+
+.slot-button span:last-child {
+  color: var(--primary);
+  font-size: 18px;
+}
+
+.instructions-label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.instructions-input {
+  min-height: 120px;
+  resize: vertical;
+  padding: 14px;
+  line-height: 1.5;
+}
+
+.form-message {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: var(--radius-lg);
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.form-message.error {
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.form-message.success {
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.confirm-button {
+  min-height: 56px;
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: var(--primary-on);
+  font-size: 16px;
+  font-weight: 800;
+  box-shadow: var(--shadow-glow-primary);
+  transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.confirm-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, 0.2) 42%, transparent 68%);
+  transform: translateX(-120%);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+
+.confirm-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 36px rgba(79, 142, 247, 0.32);
+}
+
+.confirm-button:hover::before {
+  transform: translateX(120%);
+}
+
+.confirm-button:active {
+  transform: scale(0.97);
+}
+
+@media (min-width: 1024px) {
+  .schedule-page {
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
+    padding: 36px clamp(20px, 5vw, 72px) 64px;
+  }
+
+  .schedule-header {
+    margin-bottom: 24px;
+  }
+
+  .schedule-header h1 {
+    font-size: 36px;
+  }
+
+  .schedule-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    align-items: start;
+  }
+
+  .schedule-card {
+    padding: 24px;
+    border-radius: var(--radius-2xl);
+  }
+
+  .schedule-card h2 {
+    font-size: 20px;
+  }
+
+  .slot-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .slot-button {
+    min-height: 56px;
+    padding: 0 18px;
+    border-radius: 18px;
+  }
+
+  .instructions-input {
+    min-height: 140px;
+  }
+
+  .schedule-card:nth-of-type(3) {
+    grid-column: 1 / -1;
+  }
+
+  .confirm-button {
+    grid-column: 1 / -1;
+    justify-self: end;
+    min-height: 58px;
+    padding: 0 34px;
+    border-radius: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .schedule-page {
+    padding: 16px 12px calc(66px + env(safe-area-inset-bottom));
+  }
+
+  .schedule-header {
+    margin-bottom: 16px;
+  }
+
+  .schedule-back-button {
+    width: 24px;
+    height: 16px;
+  }
+
+  .schedule-back-button svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .schedule-header h1 {
+    font-size: 22px;
+  }
+
+  .schedule-card {
+    padding: 14px;
+  }
+
+  .schedule-card h2 {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .slot-button {
+    min-height: 44px;
+    padding: 0 12px;
+    font-size: 13px;
+  }
+
+  .confirm-button {
+    min-height: 48px;
+    font-size: 14px;
+  }
+}

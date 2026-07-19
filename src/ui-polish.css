@@ -1,0 +1,282 @@
+.app-content {
+  position: relative;
+  z-index: 1;
+  min-height: 100svh;
+}
+
+body {
+  background:
+    radial-gradient(circle at 8% 8%, rgba(79, 142, 247, 0.2), transparent 34rem),
+    radial-gradient(circle at 92% 88%, rgba(139, 92, 246, 0.16), transparent 32rem),
+    linear-gradient(135deg, var(--background-sunken) 0%, var(--background) 52%, var(--surface-raised) 100%);
+}
+
+.home-page,
+.login-page,
+.cart-page,
+.address-page,
+.schedule-page,
+.history-page,
+.tracking-page,
+.confirmation-page,
+.service-page,
+.profile-page,
+.panel-shell {
+  background:
+    radial-gradient(circle at 8% 8%, rgba(79, 142, 247, 0.2), transparent 34rem),
+    radial-gradient(circle at 92% 88%, rgba(139, 92, 246, 0.16), transparent 32rem),
+    linear-gradient(135deg, var(--background-sunken) 0%, var(--background) 52%, var(--surface-raised) 100%);
+}
+
+.surface,
+.surface-muted,
+.login-card,
+.profile-card,
+.menu-section,
+.settings-section,
+.search-card,
+.service-card,
+.active-order-card,
+.cart-item,
+.cart-summary-card,
+.promo-card,
+.empty-cart,
+.address-card,
+.address-option,
+.schedule-card,
+.confirmation-card,
+.summary-card,
+.status-card,
+.timeline-card,
+.partner-card,
+.details-card,
+.detail-card,
+.order-card,
+.service-list-card,
+.no-results,
+.placeholder-card,
+.stat-card,
+.panel-sidebar,
+.panel-topbar,
+.table-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(20px);
+}
+
+.icon-button,
+.google-button,
+.category-tab,
+.slot-button,
+.add-button,
+.quantity-button,
+.edit-profile-button,
+.secondary-button,
+.home-button,
+.current-location-button,
+.add-address-button,
+.quantity-control,
+.reorder-button,
+.help-button,
+.icon-action-button,
+.remove-button,
+.bottom-nav,
+.service-bottom-bar,
+.nav-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(20px);
+}
+
+.field-group input,
+.address-input,
+.address-textarea,
+.date-input,
+.instructions-input,
+.promo-form input,
+.search-card input,
+textarea,
+.panel-search input,
+.filter-select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.field-group input:focus,
+.address-input:focus,
+.address-textarea:focus,
+.date-input:focus,
+.instructions-input:focus,
+.promo-form input:focus,
+.search-card input:focus,
+textarea:focus,
+.panel-search input:focus,
+.filter-select:focus {
+  border-color: var(--primary);
+  background: var(--surface);
+  box-shadow: 0 0 0 4px rgba(79, 142, 247, 0.12);
+}
+
+.field-group input::placeholder,
+.address-input::placeholder,
+.address-textarea::placeholder,
+.date-input::placeholder,
+.instructions-input::placeholder,
+.promo-form input::placeholder,
+.search-card input::placeholder,
+textarea::placeholder,
+.panel-search input::placeholder {
+  color: var(--text-muted);
+}
+
+.primary-button,
+.pickup-button,
+.confirm-button,
+.save-button,
+.proceed-button,
+.track-button,
+.view-cart-button,
+.category-tab.active,
+.slot-button.active {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  border-color: transparent;
+  color: var(--primary-on);
+  box-shadow: var(--shadow-glow-primary);
+}
+
+.primary-button::before,
+.pickup-button::before,
+.confirm-button::before,
+.save-button::before,
+.proceed-button::before,
+.track-button::before,
+.view-cart-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, 0.2) 45%, transparent 70%);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+
+.primary-button:hover::before,
+.pickup-button:hover::before,
+.confirm-button:hover::before,
+.save-button:hover::before,
+.proceed-button:hover::before,
+.track-button:hover::before,
+.view-cart-button:hover::before {
+  transform: translateX(120%);
+}
+
+.primary-button:active,
+.pickup-button:active,
+.confirm-button:active,
+.save-button:active,
+.proceed-button:active,
+.track-button:active,
+.view-cart-button:active,
+.icon-button:active,
+.google-button:active,
+.category-tab:active,
+.slot-button:active,
+.add-button:active,
+.quantity-button:active,
+.nav-item:active {
+  transform: scale(0.97);
+}
+
+.service-card:hover,
+.cart-item:hover,
+.order-card:hover,
+.service-list-card:hover,
+.address-option:hover,
+.menu-item:hover,
+.setting-item:hover,
+.login-card:hover,
+.profile-card:hover,
+.search-card:hover,
+.summary-card:hover,
+.status-card:hover,
+.timeline-card:hover,
+.partner-card:hover,
+.details-card:hover,
+.detail-card:hover,
+.cart-summary-card:hover,
+.promo-card:hover,
+.empty-cart:hover,
+.address-card:hover,
+.schedule-card:hover,
+.confirmation-card:hover,
+.no-results:hover,
+.placeholder-card:hover,
+.stat-card:hover,
+.table-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.primary-button:not(:disabled):hover,
+.pickup-button:not(:disabled):hover,
+.confirm-button:not(:disabled):hover,
+.save-button:not(:disabled):hover,
+.proceed-button:not(:disabled):hover,
+.track-button:not(:disabled):hover,
+.view-cart-button:not(:disabled):hover,
+.icon-button:hover,
+.google-button:hover,
+.category-tab:hover,
+.slot-button:hover,
+.add-button:hover,
+.quantity-button:hover,
+.nav-item:hover {
+  transform: translateY(-1px);
+}
+
+.eyebrow {
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.home-header h1,
+.login-brand h1,
+.brand-section h1,
+.cart-header h1,
+.address-header h1,
+.schedule-header h1,
+.history-header h1,
+.tracking-header h1,
+.confirmation-card h1,
+.service-header h1,
+.profile-header h1,
+.panel-topbar h1 {
+  letter-spacing: -0.04em;
+}
+
+.section-header,
+.order-top,
+.cart-header,
+.address-header,
+.schedule-header,
+.tracking-header,
+.profile-header {
+  align-items: center;
+}
+
+.see-all,
+.add-more-link,
+.text-link,
+.signup-link,
+.back-link {
+  font-weight: 900;
+}
+
+.bottom-nav button,
+.service-bottom-bar button {
+  font-weight: 900;
+}
