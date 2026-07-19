@@ -34,9 +34,15 @@ function MoonIcon() {
 
 export function DashboardLayout({ active, children }) {
   const navigate = useNavigate()
-  const { signOut } = useClerk() // 👈 SignOut method nikal liya
+  const { signOut } = useClerk()
   const session = getShopSession()
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
+    try {
+      return typeof window !== 'undefined' && window.innerWidth <= 768
+    } catch {
+      return false
+    }
+  })
   const [dark, setDark] = useState(() => {
     try {
       const saved = localStorage.getItem('hexa_theme')
@@ -46,6 +52,16 @@ export function DashboardLayout({ active, children }) {
       return true
     }
   })
+
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth <= 768) {
+        setSidebarCollapsed(true)
+      }
+    }
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
 
   useEffect(() => {
     const root = document.documentElement
@@ -139,6 +155,10 @@ export function DashboardLayout({ active, children }) {
           <span>Logout</span>
         </button>
       </aside>
+
+      {!sidebarCollapsed && (
+        <div className="dash-sidebar-overlay" onClick={() => setSidebarCollapsed(true)} />
+      )}
 
       <div className="dash-main">
         <header className="dash-topbar">
