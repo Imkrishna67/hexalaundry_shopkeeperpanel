@@ -3,6 +3,7 @@ import { SignedIn, SignedOut } from '@clerk/clerk-react'
 import ShapeGrid from './components/ShapeGrid.jsx'
 import ShopkeeperRegisterPage from './pages/ShopkeeperRegisterPage.jsx'
 import ShopkeeperLoginPage from './pages/LoginPage.jsx'
+import ShopWelcomeScreen from './pages/ShopWelcomeScreen.jsx' // 👈 Welcome Screen Import Kiye hain
 import ShopkeeperDashboardPage from './pages/ShopkeeperDashboardPage.jsx'
 import ShopkeeperOrdersPage from './pages/ShopkeeperOrdersPage.jsx'
 import ShopkeeperOrderDetailPage from './pages/ShopkeeperOrderDetailPage.jsx'
@@ -13,12 +14,12 @@ import './index.css'
 
 function App() {
   const location = useLocation()
-  const isAuthRoute = ['/', '/register', '/login'].includes(location.pathname)
+  // '/welcome-shop' ko bhi auth layout grids me add kiya hai agar background wahi chahiye toh
+  const isAuthRoute = ['/', '/register', '/login', '/welcome-shop'].includes(location.pathname)
 
   return (
     <>
       {isAuthRoute && (
-        // zIndex: -1 kiya hai taaki grid form ke bilkul PEECHE chala jaye aur transparent screen na banaye
         <div 
           className="shapegrid-background" 
           style={{ 
@@ -43,14 +44,13 @@ function App() {
         </div>
       )}
       
-      {/* Container zIndex: 1 ke sath foreground me form ko visible rakhega */}
       <div className="app-content" style={{ position: 'relative', zIndex: 1, minHeight: '100vh', width: '100%' }}>
         <Routes>
           <Route path="/" element={<Navigate to="/login" replace />} />
           
           <Route path="/register" element={
             <>
-              <SignedIn><Navigate to="/dashboard" replace /></SignedIn>
+              <SignedIn><Navigate to="/welcome-shop" replace /></SignedIn>
               <SignedOut><ShopkeeperRegisterPage /></SignedOut>
             </>
           } />
@@ -61,6 +61,9 @@ function App() {
               <SignedOut><ShopkeeperLoginPage /></SignedOut>
             </>
           } />
+
+          {/* 👈 Naya Intermediate Welcome Route */}
+          <Route path="/welcome-shop" element={<SignedIn><ShopWelcomeScreen /></SignedIn>} />
 
           {/* Protected Area Layouts */}
           <Route path="/dashboard" element={<SignedIn><ShopkeeperDashboardPage /></SignedIn>} />

@@ -118,11 +118,17 @@ export default function ShopkeeperRegisterPage() {
       
       if (completeSignUp.status === 'complete') {
         setIsSuccess(true) // Set success state first to trigger visual response
+        
+        // Shop Name ko localStorage mein daal rahe hain taaki Welcome page backend ko bhej sake
+        if (shopName) {
+          localStorage.setItem('shopName', shopName);
+        }
+
         await setActive({ session: completeSignUp.createdSessionId })
         
-        // Chota sa pause taaki user "Success" green text dekh sake, fir landing dashboard pr
+        // Chota sa pause taaki user "Success" green text dekh sake, fir landing welcome page pr
         setTimeout(() => {
-          navigate('/dashboard')
+          navigate('/welcome-shop')
         }, 900)
       }
     } catch (err) {
@@ -226,14 +232,17 @@ export default function ShopkeeperRegisterPage() {
             )}
 
             {/* STATE 1: Intermediate Loading Transition */}
-            {isTransitioning ? (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 0', gap: '16px' }}>
-                <h2 style={{ color: '#ffffff', fontSize: '1.4rem', fontWeight: '600', margin: 0 }}>Create your account</h2>
-                <p style={{ color: '#94a3b8', fontSize: '0.9rem', margin: 0, textAlign: 'center' }}>Welcome! Please fill in the details to get started.</p>
-                <div style={{ width: '28px', height: '28px', border: '3px solid #1c1c1f', borderTopColor: '#18A7FF', borderRadius: '50%', animation: 'spin 0.8s linear infinite', marginTop: '12px' }} />
-                <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-              </div>
-            ) : !pendingVerification ? (
+                          {isTransitioning ? (
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 0', gap: '16px' }}>
+                  {/* Hidden captcha taaki Clerk crash na kare */}
+                  <div id="clerk-captcha" style={{ display: 'none' }}></div>
+                  
+                  <h2 style={{ color: '#ffffff', fontSize: '1.4rem', fontWeight: '600', margin: 0 }}>Create your account</h2>
+                  <p style={{ color: '#94a3b8', fontSize: '0.9rem', margin: 0, textAlign: 'center' }}>Welcome! Please fill in the details to get started.</p>
+                  <div style={{ width: '28px', height: '28px', border: '3px solid #1c1c1f', borderTopColor: '#18A7FF', borderRadius: '50%', animation: 'spin 0.8s linear infinite', marginTop: '12px' }} />
+                  <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+                </div>
+              ) : !pendingVerification ? (
               
               /* STATE 2: Primary Custom Signup Form Layout */
               <>
@@ -329,7 +338,7 @@ export default function ShopkeeperRegisterPage() {
                   ))}
                 </div>
 
-                {/* DYNAMIC FOOTER: IMAGE 3 SUCCESS DISPLAY OR TIMER TEXT */}
+                {/* DYNAMIC FOOTER: SUCCESS DISPLAY OR TIMER TEXT */}
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', minHeight: '24px' }}>
                   {isSuccess ? (
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#22c55e', fontSize: '0.9rem', fontWeight: '500', animation: 'fadeIn 0.2s ease-out' }}>
