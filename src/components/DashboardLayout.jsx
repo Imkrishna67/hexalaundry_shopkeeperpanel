@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { useClerk } from '@clerk/clerk-react' // 👈 Clerk hook import kiya
+import { useClerk, useUser } from '@clerk/clerk-react' // 👈 useUser yahan import kiya
 import { getShopSession, clearShopSession } from '../services/auth.js'
 import './../dashboard.css'
 
@@ -35,6 +35,11 @@ function MoonIcon() {
 export function DashboardLayout({ active, children }) {
   const navigate = useNavigate()
   const { signOut } = useClerk()
+  
+  // 👈 Clerk se log-in user ka data nikala aur shopName nikali
+  const { user } = useUser()
+  const shopName = user?.publicMetadata?.shopName || "Hexa Laundry"
+
   const session = getShopSession()
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
     try {
@@ -82,14 +87,13 @@ export function DashboardLayout({ active, children }) {
     { key: 'profile', label: 'Profile', icon: 'profile', to: '/profile' },
   ]
 
-  // 👈 Dono local storage aur Clerk session ko ek sath khatam karne ke liye async function
   async function handleLogout() {
     try {
-      clearShopSession() // Custom token cleanup
-      await signOut({ redirectUrl: '/login' }) // Clerk authentication cleanup + redirect
+      clearShopSession()
+      await signOut({ redirectUrl: '/login' })
     } catch (err) {
       console.error("Logout runtime breakdown:", err)
-      navigate('/login') // Fallback redirect agar kuch atke to
+      navigate('/login')
     }
   }
 
@@ -100,40 +104,6 @@ export function DashboardLayout({ active, children }) {
           <button className="dash-menu-btn" onClick={() => setSidebarCollapsed((c) => !c)} aria-label="Hide sidebar">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
           </button>
-          
-          <div 
-            className="dash-brand-mark" 
-            style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center', 
-              flexShrink: 0, 
-              width: '42px', 
-              height: '42px', 
-              background: '#ffffff',  
-              borderRadius: '12px',
-              padding: '6px'
-            }} 
-            aria-hidden="true"
-          >
-            <svg viewBox="0 0 64 64" role="img" style={{ width: '100%', height: '100%' }}>
-              <path d="M18 20c0-5.5 4.5-10 10-10h8c5.5 0 10 4.5 10 10v24c0 5.5-4.5 10-10 10h-8c-5.5 0-10-4.5-10-10V20Z" fill="#E0F2FE" />
-              <path d="M20 22h24M20 31h24M20 40h16" stroke="#18A7FF" strokeWidth="4" strokeLinecap="round" fill="none" />
-              <path d="M46 15l2.2-4.2L50.5 15l4.2 2.2-4.2 2.2-2.3 4.3-2.2-4.3-4.2-2.2L46 15Z" fill="#FFD166" />
-            </svg>
-          </div>
-
-          <span 
-            className="dash-brand-text" 
-            style={{ 
-              whiteSpace: 'nowrap', 
-              overflow: 'visible', 
-              display: sidebarCollapsed ? 'none' : 'inline-block',
-              width: 'auto'
-            }}
-          >
-            Hexa Laundry
-          </span>
         </div>
 
         <nav className="dash-nav">
@@ -149,7 +119,6 @@ export function DashboardLayout({ active, children }) {
           ))}
         </nav>
 
-        {/* Sidebar Logout Button */}
         <button className="dash-nav-item dash-logout-item" onClick={handleLogout}>
           <NavIcon name="logout" />
           <span>Logout</span>
@@ -161,35 +130,74 @@ export function DashboardLayout({ active, children }) {
       )}
 
       <div className="dash-main">
-        <header className="dash-topbar">
-          {sidebarCollapsed && (
-            <button 
-              className="dash-menu-btn" 
-              onClick={() => setSidebarCollapsed(false)} 
-              style={{ marginRight: '15px', background: 'none', border: 'none', color: 'currentColor', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
-              aria-label="Show sidebar"
-            >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
-            </button>
-          )}
+        <header className="dash-topbar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative' }}>
+          
+          <div style={{ display: 'flex', alignItems: 'center', zIndex: 2 }}>
+            {sidebarCollapsed && (
+              <button 
+                className="dash-menu-btn" 
+                onClick={() => setSidebarCollapsed(false)} 
+                style={{ marginRight: '15px', background: 'none', border: 'none', color: 'currentColor', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+                aria-label="Show sidebar"
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
+              </button>
+            )}
+          </div>
 
-          <div className="dash-shop-name">{session?.shopName || 'My Shop'}</div>
+          <div style={{ 
+            position: 'absolute', 
+            left: '50%', 
+            top: '50%', 
+            transform: 'translate(-50%, -50%)', 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '14px',
+            zIndex: 1
+          }}>
+            <div 
+              className="dash-brand-mark" 
+              style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                flexShrink: 0, 
+                width: '46px', 
+                height: '46px', 
+                background: '#ffffff',  
+                borderRadius: '12px',
+                padding: '5px'
+              }} 
+              aria-hidden="true"
+            >
+              <svg viewBox="0 0 64 64" role="img" style={{ width: '100%', height: '100%' }}>
+                <path d="M18 20c0-5.5 4.5-10 10-10h8c5.5 0 10 4.5 10 10v24c0 5.5-4.5 10-10 10h-8c-5.5 0-10-4.5-10-10V20Z" fill="#E0F2FE" />
+                <path d="M20 22h24M20 31h24M20 40h16" stroke="#18A7FF" strokeWidth="4" strokeLinecap="round" fill="none" />
+                <path d="M46 15l2.2-4.2L50.5 15l4.2 2.2-4.2 2.2-2.3 4.3-2.2-4.3-4.2-2.2L46 15Z" fill="#FFD166" />
+              </svg>
+            </div>
+            {/* 👈 Yahan hardcoded text ko badal kar {shopName} variable daal diya */}
+            <span style={{ fontWeight: '700', fontSize: '22px', whiteSpace: 'nowrap' }}>
+              {shopName}
+            </span>
+          </div>
           
-          <button className="dash-bell" aria-label="Notifications" onClick={() => alert('Notifications coming soon')}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="20" height="20">
-              <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
-              <path d="M13.7 21a2 2 0 0 1-3.4 0" />
-            </svg>
-          </button>
-          <button className="dash-theme-toggle" onClick={() => setDark((d) => !d)} aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}>
-            {dark ? <SunIcon /> : <MoonIcon />}
-          </button>
-          
-          {/* Topbar Header Logout Button */}
-          <button className="dash-logout" onClick={handleLogout}>
-            <NavIcon name="logout" />
-            <span>Logout</span>
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', zIndex: 2 }}>
+            <button className="dash-bell" aria-label="Notifications" onClick={() => alert('Notifications coming soon')}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="20" height="20">
+                <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+                <path d="M13.7 21a2 2 0 0 1-3.4 0" />
+              </svg>
+            </button>
+            <button className="dash-theme-toggle" onClick={() => setDark((d) => !d)} aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}>
+              {dark ? <SunIcon /> : <MoonIcon />}
+            </button>
+            
+            <button className="dash-logout" onClick={handleLogout}>
+              <NavIcon name="logout" />
+              <span>Logout</span>
+            </button>
+          </div>
         </header>
 
         <div className="dash-content">{children}</div>
